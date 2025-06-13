@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Voice Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      text-align: center;
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Voice Chatbot</h1>
+  <button onclick="startRecording()">Start Talking</button>
+  <p id="status">Status: Idle</p>
+  <p id="question"></p>
+  <p id="answer"></p>
+  <audio id="audio" controls></audio>
+
+  <script>
+    let mediaRecorder;
+    let chunks = [];
+
+    function startRecording() {
+      document.getElementById("status").innerText = "Status: Recording...";
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = e => chunks.push(e.data);
+          mediaRecorder.onstop = sendAudio;
+
+          mediaRecorder.start();
+          setTimeout(() => {
+            mediaRecorder.stop();
+            document.getElementById("status").innerText = "Status: Thinking...";
+          }, 5000);
+        });
+    }
+
+    function sendAudio() {
+      const blob = new Blob(chunks, { type: 'audio/wav' });
+      const formData = new FormData();
+      formData.append('audio', blob, 'recording.wav');
+
+      fetch('/ask', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("status").innerText = "Status: Answer received.";
+          document.getElementById("question").innerText = "You asked: " + data.question;
+          document.getElementById("answer").innerText = "Bot says: " + data.answer;
+
+          const audio = document.getElementById("audio");
+          audio.src = data.audio_url;
+          audio.play();
+        });
+    }
+  </script>
+
+  <footer>
+    Developed by Jash Kapadia
+  </footer>
+</body>
+</html>
