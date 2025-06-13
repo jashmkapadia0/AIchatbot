@@ -13,9 +13,9 @@ chat_model = genai.GenerativeModel("models/gemini-1.5-flash-8b")
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "AI Voice Chatbot is running."
+@app.route("/")
+def index():
+    return send_file("index.html")
 
 @app.route('/ask', methods=['POST'])
 def ask():
