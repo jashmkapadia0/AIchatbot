@@ -8,7 +8,7 @@ from gtts import gTTS
 app = Flask(__name__)
 
 # Configure Gemini API key
-genai.configure(api_key="GOOGLE_API_KEY")  # Replace with your key
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))  # Replace with your key
 model = WhisperModel("base", compute_type="int8")
 
 @app.route('/')
