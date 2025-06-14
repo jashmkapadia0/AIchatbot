@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>More actions
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>AI Voice Chatbot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script defer data-domain="aichatbot-yyvu.onrender.com" src="https://plausible.io/js/script.js"></script>
   <style>
-    :root {
-      --primary-color: #00bcd4;
-      --background-color: #e8faff;
-      --text-color: #003b4f;
-      --status-color: #00a000;
-    }
-
     body {
       margin: 0;
       height: 100vh;
@@ -20,74 +11,24 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      font-family: 'Inter', sans-serif;
-      background-color: var(--background-color);
-      color: var(--text-color);
+      font-family: sans-serif;
+      background-color: #ffffff;
+      color: #000000;
       text-align: center;
-      padding: 20px;
     }
-
-    h1 {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: 10px;
-    }
-
-    img.logo {
-      width: 100px;
-      height: auto;
-      margin-bottom: 10px;
-      border-radius: 8px;
-    }
-
-    button {
-      padding: 12px 24px;
-      font-size: 1rem;
-      background-color: var(--primary-color);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-bottom: 20px;
-    }
-
-    button:hover {
-      background-color: #007c91;
-    }
-
-    #status {
-      font-size: 1.2rem;
-      margin: 10px 0;
-      color: var(--status-color);
-    }
-
-    p {
-      font-size: 1.1rem;
-      margin: 8px 0;
-    }
-
-    audio {
-      margin-top: 20px;
-      display: none;
-    }
-
     footer {
       position: absolute;
-      bottom: 15px;
+      bottom: 10px;
       width: 100%;
       text-align: center;
-      font-size: 16px;
-      color: var(--text-color);
+      font-size: 18px;
+      color: #000000;
     }
   </style>
 </head>
 <body>
-  <img src="/static/logo.jpg" alt="Logo" class="logo">
   <h1>AI Voice Chatbot</h1>
-  <div id="record-btn">
-    <button onclick="startRecording()">Start Talking</button>
-  </div>
+  <button onclick="startRecording()">Start Talking</button>
   <p id="status">Status: Idle</p>
   <p id="question"></p>
   <p id="answer"></p>
@@ -97,37 +38,18 @@
     let mediaRecorder;
     let chunks = [];
 
-    const audio = document.getElementById("audio");
-    const statusEl = document.getElementById("status");
-    const recordBtnDiv = document.getElementById("record-btn");
-
-    function updateStatus(text) {
-      statusEl.innerText = "Status: " + text;
-
-      if (text === "Answer received.") {
-        audio.style.display = "block";
-        recordBtnDiv.style.display = "block";
-      } else {
-        audio.style.display = "none";
-        if (text === "Recording..." || text === "Thinking...") {
-          recordBtnDiv.style.display = "none";
-        }
-      }
-    }
-
     function startRecording() {
-      updateStatus("Recording...");
+      document.getElementById("status").innerText = "Status: Recording...";
       navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
           mediaRecorder = new MediaRecorder(stream);
-          chunks = [];
           mediaRecorder.ondataavailable = e => chunks.push(e.data);
           mediaRecorder.onstop = sendAudio;
 
           mediaRecorder.start();
           setTimeout(() => {
             mediaRecorder.stop();
-            updateStatus("Thinking...");
+            document.getElementById("status").innerText = "Status: Thinking...";
           }, 5000);
         });
     }
@@ -140,10 +62,11 @@
       fetch('/ask', { method: 'POST', body: formData })
         .then(res => res.json())
         .then(data => {
-          updateStatus("Answer received.");
+          document.getElementById("status").innerText = "Status: Answer received.";
           document.getElementById("question").innerText = "You asked: " + data.question;
           document.getElementById("answer").innerText = "Bot says: " + data.answer;
 
+          const audio = document.getElementById("audio");
           audio.src = data.audio_url;
           audio.play();
         });
@@ -151,7 +74,7 @@
   </script>
 
   <footer>
-    Developed by <strong>Jash Kapadia</strong>
+    Developed by Jash Kapadia
   </footer>
 </body>
 </html>
