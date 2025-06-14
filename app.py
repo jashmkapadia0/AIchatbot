@@ -10,7 +10,7 @@ import google.generativeai as genai
 # Load Supabase credentials from environment variables
 
 SUPABASE_URL = "https://agslqbilarldedalvqgx.supabase.co"
-SUPABASE_KEY = os.environ.get("SUPABASE_API_KEY")
+SUPABASE_KEY = os.environ.get("SUPABASE_API_KEY", "").strip()
 SUPABASE_BUCKET = "audios"
 
 def upload_to_supabase(file_path, filename):
