@@ -7,26 +7,26 @@ from faster_whisper import WhisperModel
 from gtts import gTTS
 import google.generativeai as genai
 
-# Load Supabase credentials from environment variables
+# # Load Supabase credentials from environment variables
 
-SUPABASE_URL = "https://agslqbilarldedalvqgx.supabase.co"
-SUPABASE_KEY = os.environ.get("SUPABASE_API_KEY")
-SUPABASE_BUCKET = "audios"
+# SUPABASE_URL = "https://agslqbilarldedalvqgx.supabase.co"
+# SUPABASE_KEY = os.environ.get("SUPABASE_API_KEY")
+# SUPABASE_BUCKET = "audios"
 
-def upload_to_supabase(file_path, filename):
-    with open(file_path, 'rb') as f:
-        headers = {
-            "apikey": SUPABASE_KEY,
-            "Authorization": f"Bearer {SUPABASE_KEY}",
-            "Content-Type": "application/octet-stream"
-        }
-        url = f"{SUPABASE_URL}/storage/v1/object/{SUPABASE_BUCKET}/{filename}"
-        res = requests.post(url, headers=headers, data=f)
+# def upload_to_supabase(file_path, filename):
+#     with open(file_path, 'rb') as f:
+#         headers = {
+#             "apikey": SUPABASE_KEY,
+#             "Authorization": f"Bearer {SUPABASE_KEY}",
+#             "Content-Type": "application/octet-stream"
+#         }
+#         url = f"{SUPABASE_URL}/storage/v1/object/{SUPABASE_BUCKET}/{filename}"
+#         res = requests.post(url, headers=headers, data=f)
 
-    if res.status_code in [200, 201]:
-        print(f"✅ Uploaded to Supabase: {filename}")
-    else:
-        print(f"❌ Upload failed: {res.status_code} - {res.text}")
+#     if res.status_code in [200, 201]:
+#         print(f"✅ Uploaded to Supabase: {filename}")
+#     else:
+#         print(f"❌ Upload failed: {res.status_code} - {res.text}")
 
 # Use ONNX and tiny model
 model = WhisperModel("tiny.en", compute_type="int8", cpu_threads=2)
