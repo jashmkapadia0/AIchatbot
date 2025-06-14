@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>AI Voice Chatbot</title>
-  <script defer data-domain="aichatbot-production-29b8.up.railway.app" src="https://plausible.io/js/script.js"></script>
+  <script>
+  var script = document.createElement('script');
+  script.defer = true;
+  script.dataset.domain = "aichatbot-production-29b8.up.railway.app";
+  script.dataset.api = "https://plausible.io/api/event";
+  script.src = "https://plausible.io/js/script.js";
+  document.getElementsByTagName('head')[0].appendChild(script);
+  </script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
