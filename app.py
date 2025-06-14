@@ -1,4 +1,4 @@
-import osMore actions
+import os
 import tempfile
 from flask import Flask, request, jsonify, send_file
 from faster_whisper import WhisperModel
