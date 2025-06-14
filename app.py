@@ -31,7 +31,7 @@ def upload_to_supabase(file_path, filename):
 # Use ONNX and tiny model
 model = WhisperModel("tiny.en", compute_type="int8", cpu_threads=2)
 
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 chat_model = genai.GenerativeModel("models/gemini-1.5-flash-8b")
 
 app = Flask(__name__)
