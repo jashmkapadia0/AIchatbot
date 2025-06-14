@@ -49,7 +49,7 @@ def ask():
         audio_path = f.name
 
     # Upload original audio to Supabase
-    upload_to_supabase(audio_path, filename)
+    # upload_to_supabase(audio_path, filename)
 
     # Transcribe audio
     segments, _ = model.transcribe(audio_path)
